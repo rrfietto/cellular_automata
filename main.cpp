@@ -1,5 +1,7 @@
 #include <raylib.h>
 #include <iostream>
+#include <random>
+#include <ctime>
 
 #define SCREEN_HEIGHT 800
 #define SCREEN_WIDTH 800
@@ -20,23 +22,16 @@ void drawPixel(int x, int y)
 
 void grow()
 {
-    // for (int i = 1; i < HEIGHT - 1; i++)
-    // {
-    //     for (int j = 1; j < WIDTH - 1; j++)
-    //     {
-    //         if (prevScreenBuffer[i][j] == 1 && prevScreenBuffer[i][j - 1] == 0 && prevScreenBuffer[i - 1][j] == 0 && prevScreenBuffer[i + 1][j] == 0 && prevScreenBuffer[i][j + 1] == 0)
-    //         {
-    //             drawPixel(i - 1, j + 1);
-    //             drawPixel(i + 1, j + 1);
-    //         }
-    //     }
-    // }
+    // pattern 1
+
+    int randIdxI = 1 + rand() % 10;
+    int randIdxJ = 1 + rand() % 10;
 
     for (int i = 1; i < HEIGHT - 1; i++)
     {
         for (int j = 1; j < WIDTH - 1; j++)
         {
-            // top and bottom
+
             if ((prevScreenBuffer[i][j] == 0) &&
                 (prevScreenBuffer[i - 1][j - 1] == 0) &&
                 (prevScreenBuffer[i - 1][j] == 0) &&
@@ -46,7 +41,7 @@ void grow()
                 (prevScreenBuffer[i + 1][j + 1] == 0) &&
                 ((prevScreenBuffer[i - 1][j + 1] == 1) ||
                  (prevScreenBuffer[i + 1][j - 1] == 1)) &&
-                (j < 70 && j > 10) && (i < 70 && i > 10))
+                (j < 70 && j > 10) && (i < 70 && i > 10) && (i % randIdxI != 0 || j % randIdxJ != 0))
             {
                 drawPixel(i, j);
             }
@@ -60,23 +55,26 @@ void grow()
                 (prevScreenBuffer[i + 1][j] == 0) &&
                 ((prevScreenBuffer[i - 1][j - 1] == 1) ||
                  (prevScreenBuffer[i + 1][j + 1] == 1)) &&
-                (j < 70 && j > 10) && (i < 70 && i > 10))
+                (j < 70 && j > 10) && (i < 70 && i > 10) && (i % randIdxI != 0 || j % randIdxJ != 0))
             {
                 drawPixel(i, j);
             }
         }
     }
+
+    // ------------------------------------------
 }
 
 int main()
 {
+    srand(time(NULL));
     int initCellX = WIDTH / 2;
     int initCellY = HEIGHT / 2;
 
     screenBuffer[initCellX][initCellY] = 1;
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Cellular Automata");
 
-    SetTargetFPS(5);
+    SetTargetFPS(10);
 
     while (!(WindowShouldClose()))
     {
