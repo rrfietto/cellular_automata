@@ -14,7 +14,9 @@ int prevScreenBuffer[HEIGHT][WIDTH] = {{0}};
 
 void drawPixel(int x, int y)
 {
-    DrawRectangle(x * 10, y * 10, 10, 10, WHITE);
+    Color colors[5] = {{150, 150, 150, 255}, {100, 0, 30, 255}, {55, 0, 255, 255}, {25, 55, 255, 255}, {25, 25, 55, 255}};
+    int randColor = rand() % 5;
+    DrawRectangle(x * 10, y * 10, 10, 10, colors[randColor]);
     screenBuffer[x][y] = 1;
 }
 
@@ -74,7 +76,7 @@ int main()
     screenBuffer[initCellX][initCellY] = 1;
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Cellular Automata");
 
-    SetTargetFPS(10);
+    SetTargetFPS(5);
 
     while (!(WindowShouldClose()))
     {
